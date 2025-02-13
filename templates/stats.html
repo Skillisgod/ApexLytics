@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
+    <title>Statistiques du Joueur</title>
+</head>
+
+<body>
+    <nav>
+        <h1><a href="">ApexLytics</a></h1>
+        <div class="responsive-navbar">
+            <a href="/" id="responsive-hidden">Accueil</a>
+            <a href="/classé" id="responsive-hidden">Mode classé</a>
+            <a href="/classement" id="responsive-hidden">Classement</a>
+            <div class="search" id="responsive-hidden">
+                <input type="text" id="player1" placeholder="Nom du joueur" required>
+                <select id="platform1">
+                    <option value="PC">PC</option>
+                    <option value="PS4">PlayStation</option>
+                    <option value="X1">Xbox</option>
+                </select>
+                <button onclick="goToStatsPage()">Rechercher</button>
+            </div>
+        </div>
+        <img src="{{ url_for('static', filename='images/menu.png') }}" alt="Image de test" class="bouton-menu">
+    </nav>
+    <section class="stats">
+        <div id="result">Chargement des statistiques...</div>
+    </section>
+
+    <footer>
+        <p>Ce site est réalisé par un joueur passionné et n'est en aucun cas affilié à Electronic Arts (EA) ou Respawn
+            Entertainment.</p>
+        <p>Toutes les images et données affichées proviennent du jeu Apex Legends.</p>
+        <p>Si vous rencontrez un bug, un problème ou une suggestion pour améliorer le site, contactez-moi à :
+            <a href="mailto:apexlytics.help@gmail.com">apexlytics.help@gmail.com</a>
+        </p>
+        <p>&copy; 2024 - ApexLytics, site non officiel d'Apex Legends</p>
+    </footer>
+
+    <script>
+        const menuHamburger = document.querySelector(".bouton-menu")
+        const navLinks = document.querySelector(".responsive-navbar")
+
+        menuHamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('mobile-menu');
+            document.body.classList.toggle('no-scroll');
+            document.querySelector(".content").classList.toggle("menu-open");
+        })
+    </script>
+
+    <script>
+        function goToStatsPage() {
+            let player = document.getElementById("player1").value.trim();
+            let platform = document.getElementById("platform1").value;
+
+            if (!player) {
+                alert("Veuillez entrer un nom de joueur !");
+                return;
+            }
+
+            let newUrl = `/stats?player=${encodeURIComponent(player)}&platform=${platform}`;
+            history.pushState({}, "", newUrl);
+            fetchStats();
+        }
+
+        function getQueryParams() {
+            let params = new URLSearchParams(window.location.search);
+            return {
+                player: params.get("player"),
+                platform: params.get("platform")
+            };
+        }
+
+        function getRankInfo(rp) {
+            const ranks = [
+                { name: "Rookie IV", min: 0, max: 249 },
+                { name: "Rookie III", min: 250, max: 499 },
+                { name: "Rookie II", min: 500, max: 749 },
+                { name: "Rookie I", min: 750, max: 999 },
+                { name: "Bronze IV", min: 1000, max: 1499 },
+                { name: "Bronze III", min: 1500, max: 1999 },
+                { name: "Bronze II", min: 2000, max: 2499 },
+                { name: "Bronze I", min: 2500, max: 2999 },
+                { name: "Argent IV", min: 3000, max: 3499 },
+                { name: "Argent III", min: 3500, max: 3999 },
+                { name: "Argent II", min: 4000, max: 4499 },
+                { name: "Argent I", min: 4500, max: 4999 },
+                { name: "Or IV", min: 5000, max: 5749 },
+                { name: "Or III", min: 5750, max: 6499 },
+                { name: "Or II", min: 6500, max: 7249 },
+                { name: "Or I", min: 7250, max: 7999 },
+                { name: "Platine IV", min: 8000, max: 8999 },
+                { name: "Platine III", min: 9000, max: 9999 },
+                { name: "Platine II", min: 10000, max: 10999 },
+                { name: "Platine I", min: 11000, max: 11999 },
+                { name: "Diamant IV", min: 12000, max: 12999 },
+                { name: "Diamant III", min: 13000, max: 13999 },
+                { name: "Diamant II", min: 14000, max: 14999 },
+                { name: "Diamant I", min: 15000, max: 15999 },
+                { name: "Master", min: 16000, max: Infinity }
+            ];
+
+            for (let i = 0; i < ranks.length; i++) {
+                if (rp >= ranks[i].min && rp <= ranks[i].max) {
+                    let next = ranks[i + 1] || ranks[i];
+                    let previous = ranks[i - 1] || ranks[i];
+                    return {
+                        current: ranks[i].name,
+                        next: next.name,
+                        nextRemaining: next.min - rp,
+                        previous: previous.name,
+                        previousRemaining: rp - ranks[i].min
+                    };
+                }
+            }
+        }
+
+        function fetchStats() {
+            let { player, platform } = getQueryParams();
+
+            if (!player || !platform) {
+                document.getElementById("result").innerHTML = "<p style='color:red;'>Paramètres invalides.</p>";
+                return;
+            }
+
+            let url = `/api/stats?player=${encodeURIComponent(player)}&platform=${platform}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    // Vérification de l'existence des données nécessaires
+                    if (data.Error) {
+                        document.getElementById("result").innerHTML = `
+                <section class="erreur">
+                    <h1>Joueur introuvable !</h1>
+                    <p>Le pseudo renseigné ne correspond à aucun joueur. Vérifiez l'orthographe et réessayez.</p>
+                    <p>(Attention, les pseudo steam ne marchent pas)</p>
+                    <a href="/">Retour à l'accueil</a>
+                </section>
+            `;
+                        return;
+                    }
+
+                    let rp = data.global.rank.rankScore;
+                    let rankInfo = getRankInfo(rp);
+
+                    let prestige = data.global.levelPrestige || 0;
+                    let level = data.global.level || 0;
+                    let totalLevel = (prestige * 500) + level;
+
+                    let levelBadgeUrl = `https://apexlegendsstatus.com/core/level_badge/?level=${totalLevel}`;
+
+                    let selectedLegend = data.legends.selected.LegendName || "Inconnue";
+                    let legendImageUrl = `https://api.mozambiquehe.re/assets/icons/${selectedLegend.toLowerCase()}.png`;
+
+                    const statIcons = {
+                        "career_kills": "⚔️",
+                        "career_wins": "🏆",
+                        "career_revives": "🩹",
+                        "specialEvent_damage": "💥",
+                        "specialEvent_kills": "⚔️",
+                        "specialEvent_wins": "🏆",
+                        "career_damage": "💥",
+                        "career_games_played": "🎮"
+                    };
+
+                    let legendStats = data.legends.selected.data || [];
+
+                    let displayedStats = legendStats.sort((a, b) => b.value - a.value).slice(0, 3);
+
+                    document.getElementById("result").innerHTML = `
+            <h1>${player.toUpperCase()}</h1>
+            <div class="stats-content">
+                <div class="stats-card">
+                    <h1>Compte</h1>
+                    <img src="${levelBadgeUrl}" alt="Badge de Niveau">
+                    <p><strong>Prestige :</strong> ${data.global.levelPrestige}</p>
+                </div>
+                <div class="stats-card">
+                    <h1>Classé</h1>
+                    <img src="${data.global.rank.rankImg}" alt="Rang">
+                    <p>${rp} RP</p>
+                    <div class="rank">
+                        <p style="color:red;"><strong>▼</strong>${rankInfo.previousRemaining} RP</p>
+                        <p style="color:green;"><strong>▲</strong>${rankInfo.nextRemaining} RP</p>
+                    </div>
+                </div>                           
+            </div>
+            <div class="stats-content">
+                <div class="legends-card">
+                    <h1>Dernière légende sélectionnée : <span>${selectedLegend}</span></h1>  
+                    <div class="content-selectedLegend">   
+                        <img src="${legendImageUrl}" alt="${selectedLegend}">
+                        <div class="stats-selectedLegend">
+                            ${displayedStats.length > 0
+                            ? displayedStats.map(stat => {
+                                let icon = statIcons[stat.key] || "❓";
+                                return `<p><strong>${icon} ${stat.name} :</strong> ${stat.value}</p>`;
+                            }).join("")
+                            : "<p>Pas de données pour cette légende.</p>"}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+                })
+                .catch(error => {
+                    document.getElementById("result").innerHTML = `
+                <section class="erreur">
+                    <h1>Joueur introuvable !</h1>
+                    <p>Le pseudo renseigné ne correspond à aucun joueur. Vérifiez l'orthographe et réessayez.</p>
+                    <p>(Attention, les pseudo steam ne marchent pas)</p>
+                    <a href="/">Retour à l'accueil</a>
+                </section>
+        `;
+                });
+
+        }
+
+        window.onload = fetchStats;
+    </script>
+
+</body>
+
+</html>

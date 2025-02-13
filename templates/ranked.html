@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
+    <title>Statistiques du Joueur</title>
+</head>
+
+<body>
+    <nav>
+        <h1><a href="">ApexLytics</a></h1>
+        <div class="responsive-navbar">
+            <a href="/" id="responsive-hidden">Accueil</a>
+            <a href="/classé" id="responsive-hidden">Mode classé</a>
+            <a href="/classement" id="responsive-hidden">Classement</a>
+            <div class="search" id="responsive-hidden">
+                <input type="text" id="player1" placeholder="Nom du joueur" required>
+                <select id="platform1">
+                    <option value="PC">PC</option>
+                    <option value="PS4">PlayStation</option>
+                    <option value="X1">Xbox</option>
+                </select>
+                <button onclick="goToStatsPage()">Rechercher</button>
+            </div>
+        </div>
+        <img src="{{ url_for('static', filename='images/menu.png') }}" alt="Image de test" class="bouton-menu">
+    </nav>
+    <section class="ranked">
+        <div class="ranked-content">
+            <h1>📊 Le mode classé d'Apex Legends : comment ça marche ?</h1>
+            <p>Dans Apex Legends, le mode Ranked (classé) permet aux joueurs d'affronter des adversaires de leur niveau
+                et
+                de progresser dans un classement. Plus tu gagnes de parties et fais de bonnes performances, plus tu
+                montes
+                en grade !</p>
+            <hr>
+            <h1>🏆 Les différents rangs</h1>
+            <p>Il existe plusieurs rangs dans Apex, du plus bas au plus haut :</p>
+            <img src="{{ url_for('static', filename='images/ranked-cap-removebg.png') }}" alt="Image de test">
+            <p>Chaque rang (sauf Master et Prédateur) est divisé en quatre niveaux, du IV au I. Par exemple, Or IV est
+                le niveau le plus bas du rang Or, et Or I est le plus haut.</p>
+            <hr>
+            <h1>🎯 Comment gagner des points ?</h1>
+            <p>Pour monter en rang, tu dois gagner des points classés (RP). Tu gagnes des points en fonction de :</p>
+            <ul>
+                <li>✅ Ta place à la fin de la partie (plus tu es bien classé, mieux c'est)</li>
+                <li>✅ Le nombre d'ennemis éliminés</li>
+                <li>✅ Les assistances (si tu aides à éliminer un ennemi)</li>
+            </ul>
+            <p>Voici comment ca fonctionne :</p>
+            <img src="{{ url_for('static', filename='images/pointsRP.png') }}" alt="Image de test">
+            <p>Les **RP** (points classés) sont les points que tu gagnes en fonction de ton classement à la fin de la
+                partie. Si tu termines **top 16 ou plus bas**, tu ne gagnes **aucun point**. Mais si tu réussis à finir
+                **top 1**, tu obtiens **125 points** !</p>
+            <p>Les **points de combat**, eux, sont les points que tu gagnes à chaque élimination. Leur valeur dépend de
+                l'avancement de la partie. Ils peuvent aller de **10 à 26 points** selon ton classement. Par exemple, si
+                tu fais une élimination alors qu'il reste **18 équipes**, elle te rapportera **10 points**. Mais si tu
+                arrives à rester en vie et qu'il reste **10 équipes**, cette même elimination te rapportera **12 points**.</p>
+            <p>Mais attention, plus tu montes dans les rangs, plus il faut bien jouer, car tu peux perdre des points si
+                tu es éliminé trop tôt !</p>
+            <hr>
+            <h1>🥇 Objectif : atteindre les sommets !</h1>
+            <p>Le but du mode classé est de monter le plus haut possible pour prouver tes compétences. Au début, les
+                parties sont faciles, mais plus tu montes, plus tu joueras contre des adversaires forts.</p>
+            <p>Les meilleurs joueurs du monde atteignent le rang Prédateur, mais pour ça, il faut être ultra fort et
+                jouer beaucoup !</p>
+            <h3>💡 Alors, prêt à devenir une légende ? 🚀🔥</h3>
+        </div>
+    </section>  
+    
+    <footer>
+        <p>Ce site est réalisé par un joueur passionné et n'est en aucun cas affilié à Electronic Arts (EA) ou Respawn Entertainment.</p>
+        <p>Toutes les images et données affichées proviennent du jeu Apex Legends.</p>
+        <p>Si vous rencontrez un bug, un problème ou une suggestion pour améliorer le site, contactez-moi à :  
+            <a href="mailto:apexlytics.help@gmail.com">apexlytics.help@gmail.com</a>
+        </p>
+        <p>&copy; 2024 - ApexLytics, site non officiel d'Apex Legends</p>
+    </footer>   
+
+    <script>
+        const menuHamburger = document.querySelector(".bouton-menu")
+        const navLinks = document.querySelector(".responsive-navbar")
+
+        menuHamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('mobile-menu');
+            document.body.classList.toggle('no-scroll');
+            document.querySelector(".content").classList.toggle("menu-open");
+        })
+    </script>
+
+    <script>
+        function goToStatsPage() {
+            let player1 = document.getElementById("player1").value.trim();
+            let platform1 = document.getElementById("platform1").value;
+
+            let player = player1 || player2;
+            let platform = player1 ? platform1 : platform2;
+
+            if (!player) {
+                alert("Veuillez entrer un nom de joueur !");
+                return;
+            }
+
+            window.location.href = `/stats?player=${encodeURIComponent(player)}&platform=${platform}`;
+        }
+    </script>
+
+</body>
+
+</html>

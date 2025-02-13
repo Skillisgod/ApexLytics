@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
+    <title>ApexLytics - Accueil</title>
+</head>
+
+<body>
+    <nav>
+        <h1><a href="">ApexLytics</a></h1>
+        <div class="responsive-navbar">
+            <a href="/" id="responsive-hidden">Accueil</a>
+            <a href="/classé" id="responsive-hidden">Mode classé</a>
+            <a href="/classement" id="responsive-hidden">Classement</a>
+            <div class="search" id="responsive-hidden">
+                <input type="text" id="player1" placeholder="Nom du joueur" required>
+                <select id="platform1">
+                    <option value="PC">PC</option>
+                    <option value="PS4">PlayStation</option>
+                    <option value="X1">Xbox</option>
+                </select>
+                <button onclick="goToStatsPage()">Rechercher</button>
+            </div>
+        </div>
+        <img src="{{ url_for('static', filename='images/menu.png') }}" alt="Image de test" class="bouton-menu">
+    </nav>
+    <section class="content">
+        <div class="text">
+            <h1>Statistiques des joueurs Apex Legends</h1>
+            <h3>Entrez le pseudo d'un joueur (pseudo origin)</h3>
+            <div class="search">
+                <input type="text" id="player2" placeholder="Nom du joueur" required>
+                <select id="platform2">
+                    <option value="PC">PC</option>
+                    <option value="PS4">PlayStation</option>
+                    <option value="X1">Xbox</option>
+                </select>
+                <button onclick="goToStatsPage()">Rechercher</button>
+            </div>
+        </div>
+        <div class="horizon">
+            <div class="img">
+                <img src="{{ url_for('static', filename='images/pixelcut-export.png') }}" alt="Image de test">
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Ce site est réalisé par un joueur passionné et n'est en aucun cas affilié à Electronic Arts (EA) ou Respawn Entertainment.</p>
+        <p>Toutes les images et données affichées proviennent du jeu Apex Legends.</p>
+        <p>Si vous rencontrez un bug, un problème ou une suggestion pour améliorer le site, contactez-moi à :  
+            <a href="mailto:apexlytics.help@gmail.com">apexlytics.help@gmail.com</a>
+        </p>
+        <p>&copy; 2024 - ApexLytics, site non officiel d'Apex Legends</p>
+    </footer>   
+
+    <script>
+        const menuHamburger = document.querySelector(".bouton-menu")
+        const navLinks = document.querySelector(".responsive-navbar")
+
+        menuHamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('mobile-menu');
+            document.body.classList.toggle('no-scroll');
+            document.querySelector(".content").classList.toggle("menu-open");
+        })
+    </script>
+
+    <script>
+        function goToStatsPage() {
+            let player1 = document.getElementById("player1").value.trim();
+            let platform1 = document.getElementById("platform1").value;
+            let player2 = document.getElementById("player2").value.trim();
+            let platform2 = document.getElementById("platform2").value;
+
+            let player = player1 || player2;
+            let platform = player1 ? platform1 : platform2;
+
+            if (!player) {
+                alert("Veuillez entrer un nom de joueur !");
+                return;
+            }
+
+            window.location.href = `/stats?player=${encodeURIComponent(player)}&platform=${platform}`;
+        }
+    </script>
+</body>
+
+</html>
