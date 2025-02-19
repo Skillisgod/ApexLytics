@@ -21,41 +21,49 @@ ApexLytics est un outil de suivi des statistiques des joueurs d'Apex Legends, pe
 ## 📦 Installation & Exécution
 
 ### 1️⃣ Cloner le projet
+
 ```bash
  git clone https://github.com/Skillisgod/ApexLytics.git
  cd ApexLytics
 ```
 
 ### 2️⃣ Installer les dépendances
+
 Assurez-vous d'avoir **Python 3** et **pip** installés.
+
 ```bash
 pip install flask requests
 ```
 
-### 3️⃣ Lancer le serveur backend
+### 3️⃣ Ajouter votre clé API
+
+Pour utiliser l'API, vous devez générer une clé sur le site suivant : [Apex Legends API Portal](https://portal.apexlegendsapi.com/)
+
+Une fois obtenue, ajoutez votre clé dans `main.py` à l'emplacement prévu.
+
+### 4️⃣ Lancer le serveur backend
+
 ```bash
 python main.py
 ```
 
-### 4️⃣ Ouvrir le site
+### 5️⃣ Ouvrir le site
+
 Accédez à `http://127.0.0.1:5000/` dans votre navigateur.
 
-### 5️⃣ Tester le site  
-Vous pouvez renseigner le nom de joueur suivant ainsi que la plateforme correspondante :  
+### 6️⃣ Tester le site
 
-- **Pseudo** : Louis XIV  
-- **Plateforme** : PC  
+Vous pouvez renseigner le nom de joueur suivant ainsi que la plateforme qui correspond.
+
+- **Pseudo :** Louis XIV  
+- **Plateforme :** PC
 
 ## 🖼️ Aperçu
-![image](https://github.com/user-attachments/assets/ea24c20f-1906-4fdc-bd34-a0ea6c20c9b7)
 
-## 🤝 Contribution
-Les contributions sont les bienvenues !
-- **Fork** le repo
-- Crée une **branche** (`feature/ma-fonctionnalite`)
-- **Commit** tes modifications
-- **Push** et ouvre une **pull request**
+![image](https://github.com/user-attachments/assets/01b4ee36-6a7f-4ceb-be57-4a4d988cc8fb)
+
 
 ## 📜 Licence
+
 Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus d’informations.
 
