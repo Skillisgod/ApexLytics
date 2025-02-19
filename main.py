@@ -11,7 +11,7 @@ API_KEY = ""
 def home():
     return render_template('index.html')
 
-@app.route('/classé')
+@app.route('/classe')
 def classe():
     return render_template('ranked.html')
 
