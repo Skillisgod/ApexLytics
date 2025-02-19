@@ -41,7 +41,8 @@ python app.py
 Accédez à `http://127.0.0.1:5000/` dans votre navigateur.
 
 ## 🖼️ Aperçu
-Ajoute ici une capture d'écran de ton site pour montrer son apparence et son fonctionnement.
+![image](https://github.com/user-attachments/assets/ea24c20f-1906-4fdc-bd34-a0ea6c20c9b7)
+![image](https://github.com/user-attachments/assets/c062195f-a785-45cb-a174-914a6cb32814)
 
 ## 🤝 Contribution
 Les contributions sont les bienvenues !
