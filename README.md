@@ -40,6 +40,12 @@ python main.py
 ### 4️⃣ Ouvrir le site
 Accédez à `http://127.0.0.1:5000/` dans votre navigateur.
 
+### 5️⃣ Tester le site  
+Vous pouvez renseigner le nom de joueur suivant ainsi que la plateforme correspondante :  
+
+- **Pseudo** : Louis XIV  
+- **Plateforme** : PC  
+
 ## 🖼️ Aperçu
 ![image](https://github.com/user-attachments/assets/ea24c20f-1906-4fdc-bd34-a0ea6c20c9b7)
 
