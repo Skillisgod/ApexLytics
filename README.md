@@ -34,7 +34,7 @@ pip install flask requests
 
 ### 3️⃣ Lancer le serveur backend
 ```bash
-python app.py
+python main.py
 ```
 
 ### 4️⃣ Ouvrir le site
@@ -42,7 +42,6 @@ Accédez à `http://127.0.0.1:5000/` dans votre navigateur.
 
 ## 🖼️ Aperçu
 ![image](https://github.com/user-attachments/assets/ea24c20f-1906-4fdc-bd34-a0ea6c20c9b7)
-![image](https://github.com/user-attachments/assets/c062195f-a785-45cb-a174-914a6cb32814)
 
 ## 🤝 Contribution
 Les contributions sont les bienvenues !
@@ -53,7 +52,4 @@ Les contributions sont les bienvenues !
 
 ## 📜 Licence
 Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus d’informations.
-
----
-Développé avec ❤️ par [Ton Nom]
 
